@@ -21,7 +21,7 @@ public enum Structures {
     RUINED_PORTAL("minecraft:ruined_portal"),
     RUINS_OCEAN("minecraft:ruins_ocean"),
     MINESHAFT("minecraft:mineshaft"),
-    NETHER_FORTRESS("minecraft:nether_fortress"),
+    NETHER_FORTRESS("minecraft:fortress"),
     END_CITY("minecraft:end_city"),
     BASTION("minecraft:bastion_remnant"),
     PILLAGER_OUTPOST("minecraft:pillager_outpost"),

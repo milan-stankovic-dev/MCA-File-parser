@@ -19,7 +19,7 @@ public class MCAReader {
     
     private MCAReader() { }
     
-    public void findStructuresInFolder(String folderPath, List<Structures> wantedStructures) {
+    public void findStructuresInFolder(String folderPath, Structures... wantedStructures) {
         val folder = new File(folderPath);
 
         final File[] mcaFiles = folder.listFiles((dir, name) -> name.endsWith(".mca"));
@@ -31,7 +31,7 @@ public class MCAReader {
         Arrays.stream(mcaFiles).forEach(mcaFile -> findStructuresInOneMCA(mcaFile, wantedStructures));
     }
     
-    public void findStructuresInOneMCA(File genericFileType, List<Structures> wantedStructures) {
+    public void findStructuresInOneMCA(File genericFileType, Structures... wantedStructures) {
         try {
             val mcaFile = MCAUtil.read(genericFileType);
             for (int chunkX = 0; chunkX < 32; chunkX++) {
@@ -59,12 +59,13 @@ public class MCAReader {
     }
     
     private void serviceOneChunkWithStructures(CompoundTag structures, int chunkX,
-                                               int chunkZ, List<Structures> wantedStructures) {
+                                               int chunkZ, Structures... wantedStructures) {
         
         final CompoundTag starts = structures.getCompoundTag("starts");
+        val wantedStructuresList = Arrays.asList(wantedStructures);
         if (starts != null) {
             for (val key : starts.keySet()) {
-                if(wantedStructures!= null && wantedStructures
+                if(wantedStructuresList
                         .stream().map(Structures::getValue)
                         .noneMatch(key::contains)) {
                     return;
@@ -100,14 +101,14 @@ public class MCAReader {
     
     private String oneSetOfCoordsToString(boolean starting, int... array) {
         final String displayText = starting ? "Starting coords: [ X = " :
-                "Ending coords: [ X = ";
+                "End coords: [ X = ";
 
         return new StringBuilder()
                 .append(displayText)
                 .append(array[0])
-                .append(", Y= ")
+                .append(", Y = ")
                 .append(array[1])
-                .append(", Z= ")
+                .append(", Z = ")
                 .append(array[2])
                 .append(" ] ").toString();
     }
